@@ -9,6 +9,10 @@ This project was built as a learning project to explore and gain hands-on experi
 - basic text analysis workflows such as summarization, keyword extraction, and action item extraction
 - environment-based configuration using `.env`
 
+## Purpose
+
+The goal of this project is to experiment with building a simple backend API that processes and analyzes text using both mock logic and AI-based approaches.
+
 ## Features
 
 - `GET /` health check endpoint
