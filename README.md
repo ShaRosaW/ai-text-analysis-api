@@ -1,13 +1,13 @@
 # AI Text Analysis API
 
-A small FastAPI project for analyzing text using mock or AI-powered endpoints.
+A lightweight FastAPI application for analyzing text using both mock logic and AI-powered endpoints.
 
 This project was built as a learning project to explore and gain hands-on experience with Python, FastAPI, and AI-driven APIs:
 - Python project setup with virtual environments
 - FastAPI for building APIs
 - Pydantic for request and response models
-- basic text analysis workflows such as summarization, keyword extraction, and action item extraction
-- environment-based configuration using `.env`
+- Basic text analysis workflows such as summarization, keyword extraction, and action item extraction
+- Environment-based configuration using `.env`
 
 ## Purpose
 
@@ -23,6 +23,12 @@ The goal of this project is to experiment with building a simple backend API tha
 
 At the moment, the project supports mock responses when no API key is provided.
 
+## How it works
+
+The API exposes several endpoints that process input text and return structured outputs such as summaries, keywords, and action items.
+
+When no API key is provided, the application falls back to mock responses. When a valid OpenAI API key is configured, the endpoints can be extended to use real AI-generated results.
+
 ## Tech Stack
 
 - Python
@@ -37,7 +43,7 @@ At the moment, the project supports mock responses when no API key is provided.
 ### 1. Clone the repository
 
 ```bash
-git clone <repo-url>
+git clone https://github.com/ShaRosaW/ai-text-analysis-api.git
 cd ai-text-analysis-api
 ```
 
@@ -56,10 +62,10 @@ pip3 install -r requirements.txt
 
 ### 4. Create a `.env` file
 
-add variable:
+Create a `.env` file in the root of the project and add:
 
-```bash
-OPENAI_API_KEY=
+```env
+OPENAI_API_KEY=your_api_key_here
 ```
 
 If no API key is provided, the application will return mock responses.
@@ -81,15 +87,19 @@ Open in your browser:
 
 ```json
 {  
-  "text": "This is an example text that should be summarized."  
+  "text": "This is an example text that should be summarized."
 }
 ```
 
-## Notes
+## Future Improvements
 
-This project is intentionally kept small and iterative. Future improvements may include:
+This project is intentionally kept small and iterative, with a focus on learning and exploring backend and AI-driven development. It also serves as a foundation for further improvements in architecture and AI integration.
 
-- splitting the project into modules
-- moving AI logic into a separate service layer
-- adding tests
-- adding support for real OpenAI responses through environment configuration
+Potential next improvements include:
+
+- Refactoring the project into modular components (routes, services, models)
+- Moving AI-related logic into a dedicated service layer
+- Adding unit and integration tests
+- Supporting real AI responses through environment-based configuration
+
+This project will continue to evolve as I further develop my skills in Python, backend development, and AI applications.
