@@ -2,12 +2,14 @@
 
 A lightweight FastAPI application for analyzing text using both mock logic and AI-powered endpoints.
 
-This project was built as a learning project to explore and gain hands-on experience with Python, FastAPI, and AI-driven APIs:
+This project was built as a learning project to explore and gain hands-on experience with Python, FastAPI, and AI-driven APIs with a focus on:
+
 - Python project setup with virtual environments
-- FastAPI for building APIs
+- FastAPI for building API-based applications
 - Pydantic for request and response models
-- Basic text analysis workflows such as summarization, keyword extraction, and action item extraction
+- Text analysis workflows such as summarization, keyword extraction, and action item extraction
 - Environment-based configuration using `.env`
+- Structuring backend code into modular components such as routes, services, models, and configuration
 
 ## Purpose
 
@@ -21,13 +23,19 @@ The goal of this project is to experiment with building a simple backend API tha
 - `POST /action-items` extracts action items
 - `POST /analyze` returns a combined analysis response
 
-At the moment, the project supports mock responses when no API key is provided.
 
 ## How it works
 
-The API exposes several endpoints that process input text and return structured outputs such as summaries, keywords, and action items.
+The API exposes multiple endpoints that process input text and return structured outputs such as summaries, keywords, and action items.
 
-When no API key is provided, the application falls back to mock responses. When a valid OpenAI API key is configured, the endpoints can be extended to use real AI-generated results.
+When no API key is provided, the application returns mock responses. This makes it possible to run and test the project locally without external API access. When a valid OpenAI API key is configured, the endpoints can be extended to use real AI-generated results.
+
+The project is structured into separate modules for:
+
+- `routes` for API endpoints
+- `services` for business logic
+- `models` for request and response schemas
+- `core` for configuration handling
 
 ## Tech Stack
 
@@ -37,6 +45,23 @@ When no API key is provided, the application falls back to mock responses. When 
 - Pydantic
 - python-dotenv
 - OpenAI Python SDK
+
+## Project Structure  
+  
+```text  
+ai-text-analysis-api/  
+├── app/  
+│ ├── main.py  
+│ ├── models.py  
+│ ├── routes.py  
+│ ├── core/  
+│ │ └── config.py  
+│ └── services/  
+│ └── ai_service.py  
+├── .gitignore  
+├── README.md  
+├── requirements.txt
+
 
 ## Project Setup
 
@@ -73,7 +98,7 @@ If no API key is provided, the application will return mock responses.
 ## Run the project
 
 ```bash
-uvicorn main:app --reload
+uvicorn app.main:app --reload
 ```
 
 Open in your browser:
@@ -93,13 +118,17 @@ Open in your browser:
 
 ## Future Improvements
 
-This project is intentionally kept small and iterative, with a focus on learning and exploring backend and AI-driven development. It also serves as a foundation for further improvements in architecture and AI integration.
+This project is intentionally kept small and iterative, focusing on strengthening my backend and AI-driven development while also expanding into fullstack development, serving as a practical opportunity to re-engage with frontend development using React and TypeScript.
 
 Potential next improvements include:
 
-- Refactoring the project into modular components (routes, services, models)
-- Moving AI-related logic into a dedicated service layer
-- Adding unit and integration tests
-- Supporting real AI responses through environment-based configuration
+- Developing a simple frontend interface using React and TypeScript
+- Creating reusable UI components for text input and analysis results
+- Integrating frontend and backend via REST API communication
 
-This project will continue to evolve as I further develop my skills in Python, backend development, and AI applications.
+- Adding support for real AI responses through environment-based configuration
+- Improving response parsing and output structure
+- Adding unit and integration tests
+- Extending the analysis workflow with additional endpoints or multi-step processing
+
+This project will continue to evolve as I further develop my skills in Python, backend development, frontend technologies, and AI-driven applications.
