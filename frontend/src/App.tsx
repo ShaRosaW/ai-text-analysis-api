@@ -1,6 +1,9 @@
 import { useState } from "react";
 import "./index.css";
 
+import { TextForm } from "./components/TextForm";
+import { ResultCard } from "./components/ResultCard";
+
 type AnalysisResponse = {
   summary: string;
   keywords: string[];
@@ -8,13 +11,11 @@ type AnalysisResponse = {
 };
 
 function App() {
-  const [text, setText] = useState("");
   const [result, setResult] = useState<AnalysisResponse | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
-  const handleSubmit = async (e: React.SyntheticEvent<HTMLFormElement, SubmitEvent>) => {
-    e.preventDefault();
+  const handleAnalyze = async (text: string) => {
     setLoading(true);
     setError("");
     setResult(null);
@@ -46,51 +47,31 @@ function App() {
     <main className="app">
       <div className="container">
         <h1>AI Text Analysis</h1>
-        <p className="subtitle">
-          A simple React frontend connected to a FastAPI backend.
-        </p>
-
-        <form onSubmit={handleSubmit} className="form">
-          <label htmlFor="text">Input text</label>
-          <textarea
-            id="text"
-            value={text}
-            onChange={(e) => setText(e.target.value)}
-            placeholder="Paste or type text here..."
-            rows={10}
-          />
-
-          <button type="submit" disabled={loading || !text.trim()}>
-            {loading ? "Analyzing..." : "Analyze"}
-          </button>
-        </form>
+        <TextForm onSubmit={handleAnalyze} loading={loading} />
 
         {error && <p className="error">{error}</p>}
 
         {result && (
           <section className="results">
-            <div className="card">
-              <h2>Summary</h2>
+            <ResultCard title="Summary">
               <p>{result.summary}</p>
-            </div>
+            </ResultCard>
 
-            <div className="card">
-              <h2>Keywords</h2>
+            <ResultCard title="Keywords">
               <ul>
                 {result.keywords.map((keyword, index) => (
                   <li key={index}>{keyword}</li>
                 ))}
               </ul>
-            </div>
+            </ResultCard>
 
-            <div className="card">
-              <h2>Action Items</h2>
+            <ResultCard title="Action Items">
               <ul>
                 {result.action_items.map((item, index) => (
                   <li key={index}>{item}</li>
                 ))}
               </ul>
-            </div>
+            </ResultCard>
           </section>
         )}
       </div>
