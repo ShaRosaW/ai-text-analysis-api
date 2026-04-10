@@ -1,121 +1,101 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from './assets/vite.svg'
-import heroImg from './assets/hero.png'
-import './App.css'
+import { useState } from "react";
+import "./index.css";
+
+type AnalysisResponse = {
+  summary: string;
+  keywords: string[];
+  action_items: string[];
+};
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [text, setText] = useState("");
+  const [result, setResult] = useState<AnalysisResponse | null>(null);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
+
+  const handleSubmit = async (e: React.SyntheticEvent<HTMLFormElement, SubmitEvent>) => {
+    e.preventDefault();
+    setLoading(true);
+    setError("");
+    setResult(null);
+
+    try {
+      const response = await fetch("http://127.0.0.1:8000/analyze", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ text }),
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to analyze text.");
+      }
+
+      const data: AnalysisResponse = await response.json();
+      setResult(data);
+    } catch (err) {
+      setError("Something went wrong while analyzing the text.");
+      console.error(err);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
-    <>
-      <section id="center">
-        <div className="hero">
-          <img src={heroImg} className="base" width="170" height="179" alt="" />
-          <img src={reactLogo} className="framework" alt="React logo" />
-          <img src={viteLogo} className="vite" alt="Vite logo" />
-        </div>
-        <div>
-          <h1>Get started</h1>
-          <p>
-            Edit <code>src/App.tsx</code> and save to test <code>HMR</code>
-          </p>
-        </div>
-        <button
-          className="counter"
-          onClick={() => setCount((count) => count + 1)}
-        >
-          Count is {count}
-        </button>
-      </section>
+    <main className="app">
+      <div className="container">
+        <h1>AI Text Analysis</h1>
+        <p className="subtitle">
+          A simple React frontend connected to a FastAPI backend.
+        </p>
 
-      <div className="ticks"></div>
+        <form onSubmit={handleSubmit} className="form">
+          <label htmlFor="text">Input text</label>
+          <textarea
+            id="text"
+            value={text}
+            onChange={(e) => setText(e.target.value)}
+            placeholder="Paste or type text here..."
+            rows={10}
+          />
 
-      <section id="next-steps">
-        <div id="docs">
-          <svg className="icon" role="presentation" aria-hidden="true">
-            <use href="/icons.svg#documentation-icon"></use>
-          </svg>
-          <h2>Documentation</h2>
-          <p>Your questions, answered</p>
-          <ul>
-            <li>
-              <a href="https://vite.dev/" target="_blank">
-                <img className="logo" src={viteLogo} alt="" />
-                Explore Vite
-              </a>
-            </li>
-            <li>
-              <a href="https://react.dev/" target="_blank">
-                <img className="button-icon" src={reactLogo} alt="" />
-                Learn more
-              </a>
-            </li>
-          </ul>
-        </div>
-        <div id="social">
-          <svg className="icon" role="presentation" aria-hidden="true">
-            <use href="/icons.svg#social-icon"></use>
-          </svg>
-          <h2>Connect with us</h2>
-          <p>Join the Vite community</p>
-          <ul>
-            <li>
-              <a href="https://github.com/vitejs/vite" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#github-icon"></use>
-                </svg>
-                GitHub
-              </a>
-            </li>
-            <li>
-              <a href="https://chat.vite.dev/" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#discord-icon"></use>
-                </svg>
-                Discord
-              </a>
-            </li>
-            <li>
-              <a href="https://x.com/vite_js" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#x-icon"></use>
-                </svg>
-                X.com
-              </a>
-            </li>
-            <li>
-              <a href="https://bsky.app/profile/vite.dev" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#bluesky-icon"></use>
-                </svg>
-                Bluesky
-              </a>
-            </li>
-          </ul>
-        </div>
-      </section>
+          <button type="submit" disabled={loading || !text.trim()}>
+            {loading ? "Analyzing..." : "Analyze"}
+          </button>
+        </form>
 
-      <div className="ticks"></div>
-      <section id="spacer"></section>
-    </>
-  )
+        {error && <p className="error">{error}</p>}
+
+        {result && (
+          <section className="results">
+            <div className="card">
+              <h2>Summary</h2>
+              <p>{result.summary}</p>
+            </div>
+
+            <div className="card">
+              <h2>Keywords</h2>
+              <ul>
+                {result.keywords.map((keyword, index) => (
+                  <li key={index}>{keyword}</li>
+                ))}
+              </ul>
+            </div>
+
+            <div className="card">
+              <h2>Action Items</h2>
+              <ul>
+                {result.action_items.map((item, index) => (
+                  <li key={index}>{item}</li>
+                ))}
+              </ul>
+            </div>
+          </section>
+        )}
+      </div>
+    </main>
+  );
 }
 
-export default App
+export default App;
