@@ -2,7 +2,7 @@
 
 A fullstack application for analyzing text using a FastAPI backend and a React + TypeScript frontend.
 
-The application allows users to submit text and receive structured analysis results, including summaries, keywords, and action items.
+The application allows users to submit text and receive structured analysis results, including summaries, keywords, and action items, presented through a clean and user-friendly interface.
 
 This project was built as a hands-on learning project to explore backend development with Python and FastAPI, while also re-engaging with frontend development using React and TypeScript.
 
@@ -44,6 +44,8 @@ Supports:
   - keywords
   - action items
 - Loading and error states
+- Empty state for improved user feedback
+- Improved UI with structured layout and visual hierarchy
 - Reusable UI components:
   - `TextForm`
   - `ResultCard`
@@ -130,6 +132,37 @@ The project consists of a FastAPI backend and a React + TypeScript frontend.
 - If no `OPENAI_API_KEY` is set → mock responses are returned. 
   This allows the project to run locally without external API access while still demonstrating the full application flow.
 - If configured → real AI responses can be enabled
+
+---
+
+## Preview
+
+A preview of the frontend interface connected to the FastAPI backend.
+
+The screenshots below illustrate different UI states of the application:
+
+- **Empty state**
+
+![Application preview empty state](assets/app-preview-empty-state.png)
+
+- **Error state**
+
+![Application preview error state](assets/app-preview-error-state.png)
+
+- **Result state**
+
+![Application preview result state](assets/app-preview-result-state.png)
+
+---
+
+### Example Input
+
+An example of the type of input used in the application:
+
+```text
+During the last iteration, several improvements were identified in the workflow. 
+The next improvements on the list are optimizing API performance, improving frontend usability, and enhancing collaboration between development and design. Opportunities to integrate AI-driven features were also explored. 
+```
 
 ---
 
@@ -250,7 +283,8 @@ This project is intentionally kept small and iterative, focusing on strengthenin
 
 Potential next improvements include:
 
-- Improving frontend UI/UX (layout, interaction, loading states)
+- Further improving UI/UX (layout, responsiveness, accessibility)
+- Adding features like history, copy-to-clipboard, or export options
 - Creating more reusable UI components
 - Enhancing frontend state management
 - Enabling real AI responses through environment-based configuration
