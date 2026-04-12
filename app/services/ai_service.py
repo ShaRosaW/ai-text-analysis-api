@@ -105,7 +105,11 @@ def analyze_text(text: str):
     logger.info("Full analysis request received")
 
     return {
-        "summary": f"(Mock) Summary: {text[:50]}...",
-        "keywords": ["example", "mock", "keyword"],
-        "action_items": ["mock action"]
+        "summary": f"This is a (mock) summary of the provided text: {text[:120]}...",
+        "keywords": ["analysis", "text", "example", "mock", "demo"],
+        "action_items": [
+            "Review the provided text",
+            "Identify key insights",
+            "Take follow-up actions based on the analysis"
+        ]
     }
